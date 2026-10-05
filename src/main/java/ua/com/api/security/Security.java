@@ -28,7 +28,7 @@ public class Security {
                     .frameOptions()
                     .disable()
                 .and().authorizeRequests()
-                    .antMatchers("/h2-workbench/**", "/v3/api-docs/**", "/swagger-ui/**")
+                    .antMatchers("/h2-workbench/**", "/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html")
                     .permitAll()
                 .and().authorizeRequests()
                     .anyRequest()
