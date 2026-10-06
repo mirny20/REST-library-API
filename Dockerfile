@@ -12,9 +12,12 @@ WORKDIR /app
 # Copy packaged WAR/JAR
 COPY --from=build /app/target/*.war app.war
 
-# Copy pre-populated H2 database files (authors, genres, books)
-COPY src/main/resources/db/library.mv.db ./src/main/resources/db/library.mv.db
+# Directory for persistent H2 database (mount a volume here to keep data between restarts)
+RUN mkdir -p /data
 
 EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.war"]
+# DB path can be overridden via DB_PATH env variable (defaults to /data)
+ENV DB_PATH=/data
+
+ENTRYPOINT java -Dspring.datasource.dbpath=${DB_PATH} -jar app.war
